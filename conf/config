@@ -4,8 +4,8 @@ VERSION=1.1
 
 # OSM DATA SOURCE
 #################
-OSM_LATEST_FILE_NAME=hamburg-latest.osm.pbf
-OSM_LATEST_FILE_DOWNLOAD_URL=https://download.geofabrik.de/europe/germany/${OSM_LATEST_FILE_NAME}
+OSM_LATEST_FILE_NAME=austria-latest.osm.pbf
+OSM_LATEST_FILE_DOWNLOAD_URL=https://download.geofabrik.de/europe/austria-latest.osm.pbf
 
 # DOCKER CONFIG
 ###############
@@ -74,23 +74,17 @@ RENDERING_THREADS=10
 
 ## ZOOMS (FROM 1 TO 18)
 MINZOOM=1
-MAXZOOM=10
+MAXZOOM=19
 
 ## BBOX
 # - you can get your bbox limits graphically from http://tools.geofabrik.de/calc/ or http://harrywood.co.uk/maps/uixapi/xapi.html
 # - you can estimate number and size of generated tiles thanks to http://tools.geofabrik.de/calc/
 
-## Hamburg
-BBOX_NAME='Hamburg'
-MIN_LONG=9.8086
-MIN_LAT=53.419
-MAX_LONG=10.2096
-MAX_LAT=53.667
+## Trentino
+BBOX_NAME='Kleinzell-Lembach'
+MIN_LONG=13.9059
+MIN_LAT=48.421
+MAX_LONG=14.0155
+MAX_LAT=48.5038
 
-## World extent
-#BBOX_NAME='World'
-#MIN_LONG=-180.0
-#MIN_LAT=-90.0
-#MAX_LONG=180.0
-#MAX_LAT=90.0
 BBOX="$MIN_LONG $MIN_LAT $MAX_LONG $MAX_LAT"
