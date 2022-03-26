@@ -74,7 +74,7 @@ RENDERING_THREADS=10
 
 ## ZOOMS (FROM 1 TO 18)
 MINZOOM=1
-MAXZOOM=18
+MAXZOOM=19
 
 ## BBOX
 # - you can get your bbox limits graphically from http://tools.geofabrik.de/calc/ or http://harrywood.co.uk/maps/uixapi/xapi.html
