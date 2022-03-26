@@ -56,14 +56,14 @@ class GoogleProjection:
             self.zc.append((e,e))
             self.Ac.append(c)
             c *= 2
-                
+
     def fromLLtoPixel(self,ll,zoom):
          d = self.zc[zoom]
          e = round(d[0] + ll[0] * self.Bc[zoom])
          f = minmax(sin(DEG_TO_RAD * ll[1]),-0.9999,0.9999)
          g = round(d[1] + 0.5*log((1+f)/(1-f))*-self.Cc[zoom])
          return (e,g)
-     
+
     def fromPixelToLL(self,px,zoom):
          e = self.zc[zoom]
          f = (px[0] - e[0])/self.Bc[zoom]
@@ -171,7 +171,7 @@ def render_tiles(bbox, bbox_name, mapfile, tile_dir, minZoom, maxZoom, num_threa
     if not os.path.isdir(tile_dir):
          os.mkdir(tile_dir)
 
-    gprj = GoogleProjection(maxZoom+1) 
+    gprj = GoogleProjection(maxZoom+1)
 
     ll0 = (bbox[0],bbox[3])
     ll1 = (bbox[2],bbox[1])
@@ -209,11 +209,11 @@ def render_tiles(bbox, bbox_name, mapfile, tile_dir, minZoom, maxZoom, num_threa
                     queue.put(t)
                 except KeyboardInterrupt:
                     while True:
-                        #Fetch all tile from the queue
-                        r = self.q.get()
+                        # Fetch and handle all scheduled tiles from the queue to stop quickly
+                        r = queue.get()
+                        queue.task_done()
                         if (r == None):
-                             self.q.task_done()
-                             break
+                            break
 
                     raise SystemExit("Ctrl-c detected, exiting...")
 
@@ -234,49 +234,49 @@ class TilesDirMustEndsWithSlash(argparse.Action):
 
 def main():
     parser = argparse.ArgumentParser(description='Render tiles.')
-    parser.add_argument('--bbox',  
-                        nargs=4, 
-                        metavar=('minLong','minLat','maxLong','maxLat'), 
-                        type=float, 
-                        required=True, 
+    parser.add_argument('--bbox',
+                        nargs=4,
+                        metavar=('minLong','minLat','maxLong','maxLat'),
+                        type=float,
+                        required=True,
                         dest='bbox',
                         help='Set the bbox on which tiles must be rendered.\
                              Example for Hamburg: \'(8.4213643278, 53.3949251389, 10.3242585128, 53.9644376366)\'')
-    parser.add_argument('--bbox_name', 
-                        metavar='BBOX_NAME', 
-                        type=str, 
-                        required=True, 
+    parser.add_argument('--bbox_name',
+                        metavar='BBOX_NAME',
+                        type=str,
+                        required=True,
                         dest='bbox_name',
                         help='Just an alias for your bbox (for logging purposes)')
-    parser.add_argument('--mapfile', 
-                        metavar='MAPFILE', 
+    parser.add_argument('--mapfile',
+                        metavar='MAPFILE',
                         type=str,
-                        required=True, 
+                        required=True,
                         dest='mapfile',
                         help='XML file used by Mapnik load_map() function')
-    parser.add_argument('--tile_dir', 
-                        metavar='TILEDIR', 
-                        type=str, 
-                        required=True, 
+    parser.add_argument('--tile_dir',
+                        metavar='TILEDIR',
+                        type=str,
+                        required=True,
                         dest='tile_dir',
                         action=TilesDirMustEndsWithSlash,
                         help='Output directory for generated tiles')
-    parser.add_argument('--minZoom', 
-                        metavar='MINZOOM', 
-                        type=int, 
-                        required=True, 
+    parser.add_argument('--minZoom',
+                        metavar='MINZOOM',
+                        type=int,
+                        required=True,
                         dest='minZoom',
                         help='Tiles must be rendered above this zoom (from zoom 1)')
-    parser.add_argument('--maxZoom', 
-                        metavar='MAXZOOM', 
-                        type=int, 
-                        required=True, 
+    parser.add_argument('--maxZoom',
+                        metavar='MAXZOOM',
+                        type=int,
+                        required=True,
                         dest='maxZoom',
                         help='Tiles must be rendered below this zoom (up to zoom 18)')
-    parser.add_argument('--num_threads', 
-                        metavar='NUM_THREADS', 
-                        type=int, 
-                        required=True, 
+    parser.add_argument('--num_threads',
+                        metavar='NUM_THREADS',
+                        type=int,
+                        required=True,
                         dest='num_threads',
                         help='Rendering threads to spawn, should be roughly equal to number of CPU cores available')
     args = parser.parse_args()
@@ -285,7 +285,7 @@ def main():
     logger.info(args.bbox)
 
     render_tiles(args.bbox, args.bbox_name, args.mapfile, args.tile_dir, args.minZoom, args.maxZoom, args.num_threads)
-    
+
     logger.info('Tiles rendering completed')
     closeLoggingStreamHandlers()
     os._exit(0)
