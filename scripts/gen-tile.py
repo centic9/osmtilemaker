@@ -130,7 +130,7 @@ class RenderThread:
 
                 exists= ""
                 if os.path.isfile(tile_uri):
-                    exists= "exists"
+                    exists= ", exists"
                 else:
                     try:
                         self.render_tile(tile_uri, x, y, z)
@@ -143,10 +143,10 @@ class RenderThread:
                 try:
                     bytes=os.stat(tile_uri)[6]
                     if bytes == 103:
-                        empty = " Empty Tile "
+                        empty = ", empty"
                 except:
                     pass
-                logger.info(name+': '+ str(z)+', '+ str(x)+', '+ str(y)+', '+exists+empty)
+                logger.info('Rendered: '+name+': '+ str(z)+', '+ str(x)+', '+ str(y)+', queued: '+str(self.q.qsize())+exists+empty)
                 self.q.task_done()
         except:
             logging("message")
@@ -176,6 +176,7 @@ def render_tiles(bbox, bbox_name, mapfile, tile_dir, minZoom, maxZoom, num_threa
     ll0 = (bbox[0],bbox[3])
     ll1 = (bbox[2],bbox[1])
 
+    logger.info('Creating renderer-tasks')
     for z in range(minZoom,maxZoom + 1):
         px0 = gprj.fromLLtoPixel(ll0,z)
         px1 = gprj.fromLLtoPixel(ll1,z)
@@ -207,7 +208,16 @@ def render_tiles(bbox, bbox_name, mapfile, tile_dir, minZoom, maxZoom, num_threa
                 try:
                     queue.put(t)
                 except KeyboardInterrupt:
+                    while True:
+                        #Fetch all tile from the queue
+                        r = self.q.get()
+                        if (r == None):
+                             self.q.task_done()
+                             break
+
                     raise SystemExit("Ctrl-c detected, exiting...")
+
+    logging.info('Submitted all render-tasks, now waiting for remaining '+str(queue.qsize())+' to finish')
 
     # wait for pending rendering jobs to complete
     queue.join()
