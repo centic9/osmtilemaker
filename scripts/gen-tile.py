@@ -206,12 +206,10 @@ def render_tiles(bbox, bbox_name, mapfile, tile_dir, minZoom, maxZoom, num_threa
                 try:
                     queue.put(t)
                 except KeyboardInterrupt:
-                    while True:
-                        # Fetch and handle all scheduled tiles from the queue to stop quickly
-                        r = queue.get()
-                        queue.task_done()
-                        if (r == None):
-                            break
+                    logging.info('Draining '+str(queue.qsize())+' items from the queue to stop quickly')
+                    # clear the queue to stop quickly
+                    with queue.mutex:
+                        queue.clear()
 
                     raise SystemExit("Ctrl-c detected, exiting...")
 
