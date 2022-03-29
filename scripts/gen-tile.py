@@ -6,11 +6,9 @@ import argparse
 import logging
 import os
 import sys
-import time
 import threading
 from queue import Queue
-from math import pi,cos,sin,log,exp,atan
-from subprocess import call
+from math import pi,sin,log,exp,atan
 try:
     import mapnik2 as mapnik
 except:
@@ -50,7 +48,7 @@ class GoogleProjection:
         self.Ac = []
         c = 256
         for d in range(0,levels):
-            e = c/2;
+            e = c/2
             self.Bc.append(c/360.0)
             self.Cc.append(c/(2 * pi))
             self.zc.append((e,e))
@@ -93,8 +91,8 @@ class RenderThread:
         p1 = ((x + 1) * 256, y * 256)
 
         # Convert to LatLong (EPSG:4326)
-        l0 = self.tileproj.fromPixelToLL(p0, z);
-        l1 = self.tileproj.fromPixelToLL(p1, z);
+        l0 = self.tileproj.fromPixelToLL(p0, z)
+        l1 = self.tileproj.fromPixelToLL(p1, z)
 
         # Convert to map projection (e.g. mercator co-ords EPSG:900913)
         c0 = self.prj.forward(mapnik.Coord(l0[0],l0[1]))
