@@ -64,8 +64,8 @@ RUN \
 
 # openstreetmap-carto python libraries
 RUN \
-    pip3 install pyyaml requests wheel && \
-    pip3 install -Iv psycopg2==${PSYCOPG2_VERSION}
+    pip3 install --break-system-packages pyyaml requests wheel && \
+    pip3 install --break-system-packages -Iv psycopg2==${PSYCOPG2_VERSION}
 
 ###
 # Install osm2pgsql
