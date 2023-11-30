@@ -1,4 +1,8 @@
-FROM postgres:13-bullseye
+FROM postgres:13-bookworm
+
+RUN sed -i 's/^# *de_AT.UTF-8 UTF-8/de_AT.UTF-8 UTF-8/' /etc/locale.gen && \
+        locale-gen
+ENV LANG de_AT.utf8
 
 ###
 # Set WORKDIR
@@ -13,7 +17,7 @@ WORKDIR $INSTALLWORKDIR
 ###
 
 ENV POSTGIS_VERSION 3
-ENV OSM2PGSQL_VERSION 1.5.1
+#ENV OSM2PGSQL_VERSION 1.5.1
 ENV OPENSTREETMAP_CARTO_VERSION 5.4.0
 ENV MAPNIK_VERSION 3.1
 ENV NODEJS_VERSION 16.x
@@ -29,13 +33,14 @@ RUN \
     git \
     software-properties-common \
     sudo \
-    wget \ 
+    wget \
     unzip \
     curl \
     # osm2pgsql
     make cmake g++ libboost-dev libboost-system-dev \
     libboost-filesystem-dev libexpat1-dev zlib1g-dev \
     libbz2-dev libpq-dev libproj-dev lua5.2 liblua5.2-dev \
+    osm2pgsql \
     # postgis
     postgresql-${PG_MAJOR}-postgis-${POSTGIS_VERSION} \
     postgresql-${PG_MAJOR}-postgis-${POSTGIS_VERSION}-scripts \
@@ -66,10 +71,10 @@ RUN \
 # Install osm2pgsql
 ###
 
-RUN wget https://github.com/openstreetmap/osm2pgsql/archive/${OSM2PGSQL_VERSION}.zip && \
-    unzip ${OSM2PGSQL_VERSION}.zip && rm ${OSM2PGSQL_VERSION}.zip &&\
-    cd osm2pgsql-${OSM2PGSQL_VERSION} && mkdir build && cd build && \
-    cmake .. && make && make install
+#RUN wget https://github.com/openstreetmap/osm2pgsql/archive/${OSM2PGSQL_VERSION}.zip && \
+#    unzip ${OSM2PGSQL_VERSION}.zip && rm ${OSM2PGSQL_VERSION}.zip &&\
+#    cd osm2pgsql-${OSM2PGSQL_VERSION} && mkdir build && cd build && \
+#    cmake .. && make && make install
 
 ###
 # Install carto
@@ -94,7 +99,7 @@ RUN \
     mv noto/*.otf /usr/share/fonts/opentype/noto && \
     mv noto/*.ttf /usr/share/fonts/truetype/noto && \
     rm -r noto
-    
+
 RUN fc-cache
 
 ###
@@ -119,6 +124,3 @@ RUN \
         software-properties-common \
         make cmake g++ && \
     apt-get autoremove -y
-
-
-        
