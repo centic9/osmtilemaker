@@ -21,8 +21,8 @@ psql -v ON_ERROR_STOP=1 -U "$POSTGRES_USER" <<-EOSQL
         WITH OWNER = $DBPG_USER_OSMTILEMAKER_USERNAME
             ENCODING = 'UTF8'
             TABLESPACE = pg_default
-            LC_COLLATE = 'de_AT.utf8'
-            LC_CTYPE = 'de_AT.utf8'
+            LC_COLLATE = 'de_AT.UTF8'
+            LC_CTYPE = 'de_AT.UTF8'
             CONNECTION LIMIT = -1
             TEMPLATE template0
 EOSQL
