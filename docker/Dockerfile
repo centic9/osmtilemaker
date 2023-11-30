@@ -86,6 +86,7 @@ RUN \
 ###
 
 RUN curl -sL https://deb.nodesource.com/setup_${NODEJS_VERSION} | bash - && \
+	echo "# Avoid using newer nodejs/npm in Debian Bookworm and Trixie\nPackage: *\nPin: origin deb.nodesource.com\nPin-Priority: 1000" > /etc/apt/preferences.d/nodesource.pref && \
     apt-get install -y --no-install-recommends \
     nodejs \
     # then clean
