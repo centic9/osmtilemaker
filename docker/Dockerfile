@@ -55,7 +55,7 @@ RUN \
     gdal-bin \
     # fonts
     fontconfig \
-    ttf-unifont \
+    fonts-unifont \
     fonts-noto-cjk \
     fonts-noto-hinted \
     fonts-noto-unhinted \
