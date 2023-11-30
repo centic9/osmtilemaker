@@ -4,8 +4,13 @@ VERSION=1.1
 
 # OSM DATA SOURCE
 #################
-OSM_LATEST_FILE_NAME=hamburg-latest.osm.pbf
-OSM_LATEST_FILE_DOWNLOAD_URL=https://download.geofabrik.de/europe/germany/${OSM_LATEST_FILE_NAME}
+OSM_LATEST_FILE_NAME=austria-latest.osm.pbf
+OSM_LATEST_FILE_DOWNLOAD_URL=https://download.geofabrik.de/europe/austria-latest.osm.pbf
+# https://gis.stackexchange.com/questions/242704/merging-osm-pbf-files
+# https://help.openstreetmap.org/questions/48843/merging-two-or-more-geographical-areas-to-import-two-or-more-osm-files-in-nominatim
+# https://stackoverflow.com/questions/40872952/how-can-i-merge-osm-files-while-retaining-all-node-way-and-relation-informatio
+# http://download.geofabrik.de/europe/czech-republic-latest.osm.pbf
+# http://download.geofabrik.de/europe/germany/bayern-latest.osm.pbf
 
 # DOCKER CONFIG
 ###############
@@ -74,18 +79,18 @@ RENDERING_THREADS=10
 
 ## ZOOMS (FROM 1 TO 18)
 MINZOOM=1
-MAXZOOM=10
+MAXZOOM=18
 
 ## BBOX
 # - you can get your bbox limits graphically from http://tools.geofabrik.de/calc/ or http://harrywood.co.uk/maps/uixapi/xapi.html
 # - you can estimate number and size of generated tiles thanks to http://tools.geofabrik.de/calc/
 
-## Hamburg
-BBOX_NAME='Hamburg'
-MIN_LONG=9.8086
-MIN_LAT=53.419
-MAX_LONG=10.2096
-MAX_LAT=53.667
+## Cover-the-world
+BBOX_NAME='Cover The World'
+MIN_LONG=13.63953
+MIN_LAT=48.16425
+MAX_LONG=14.54315
+MAX_LAT=48.85568
 
 ## World extent
 #BBOX_NAME='World'
