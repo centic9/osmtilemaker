@@ -4,11 +4,9 @@ VERSION=1.1
 
 # OSM DATA SOURCE
 #################
-OSM_LATEST_FILE_NAME=austria-latest.osm.pbf
+OSM_LATEST_FILE_NAME=cover-the-world.pbf
 OSM_LATEST_FILE_DOWNLOAD_URL=https://download.geofabrik.de/europe/austria-latest.osm.pbf
-# https://gis.stackexchange.com/questions/242704/merging-osm-pbf-files
-# https://help.openstreetmap.org/questions/48843/merging-two-or-more-geographical-areas-to-import-two-or-more-osm-files-in-nominatim
-# https://stackoverflow.com/questions/40872952/how-can-i-merge-osm-files-while-retaining-all-node-way-and-relation-informatio
+# We now combine three files into one area
 # http://download.geofabrik.de/europe/czech-republic-latest.osm.pbf
 # http://download.geofabrik.de/europe/germany/bayern-latest.osm.pbf
 
