@@ -1,7 +1,12 @@
 FROM postgres:13-bookworm
 
+###
+# Set local to de_AT-UTF-8
+# See https://hub.docker.com/_/postgres
+###
 RUN sed -i 's/^# *de_AT.UTF-8 UTF-8/de_AT.UTF-8 UTF-8/' /etc/locale.gen && \
         locale-gen
+RUN localedef -i de_AT -c -f UTF-8 -A /usr/share/locale/locale.alias de_AT.UTF-8
 ENV LANG de_AT.utf8
 
 ###
